@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Periodic Table of Elements</title>
+</head>
+
+<body>
+  <h1>Periodic table of elements</h1>
+  <table id="main-table">
+   
+  </table>
+
+  <table id="extended-table">
+   
+  </table>
+
+  <script>
+    function generateTable1(){
+      table = document.getElementById('main-table')
+      for(let i = 1; i <= 7; i++){ //Generates rows.
+        newRow = document.createElement('tr')
+        newRow.id = `period-${i}`
+        table.appendChild(newRow);
+        for(let j = 1; j <= 18; j++){
+          getRow = document.getElementById(`period-${i}`)
+          newData = document.createElement('td')
+          newData.id = `period${i}-group${j}`
+          getRow.appendChild(newData);
+          
+        }
+      }
+    }
+
+    function generateTable2(){
+      table = document.getElementById('extended-table')
+      for(let i = 1; i <= 2; i++){ //Generates rows.
+        newRow = document.createElement('tr')
+        newRow.id = `ex-period-${i}`
+        table.appendChild(newRow);
+        for(let j = 1; j <= 14; j++){
+          getRow = document.getElementById(`ex-period-${i}`)
+          newData = document.createElement('td')
+          newData.id = `ex-period${i}-group${j}`
+          getRow.appendChild(newData);
+          
+        }
+      }
+    }
+
+    function generateTables(){
+      generateTable1()
+      generateTable2()
+    }
+
+    generateTables()
+  </script>
+</body>
+
+</html>
