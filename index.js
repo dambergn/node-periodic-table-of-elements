@@ -51,7 +51,17 @@ app.get('/', (req, res) => {
   res.sendFile('index.html', { root: './public' });
 });
 
-app.post('/admin/api/register', (req, res) => {
+let elements = JSON.parse(fs.readFileSync('database/0_Elements.json'));
+function getElements(){
+  let results = []  ;
+  for(let i = 0; i < elements.length; i++){
+  results.push(JSON.parse(fs.readFileSync(`database/${elements[i].file}`)));
+  }
+  elements = results;
+}
+getElements();
+
+app.post('/api/ptoe', (req, res) => { // Periodic table of elements.
   let request = req.body;
   console.log("Body:", req.body);
   res.sendStatus(200);
@@ -85,8 +95,8 @@ const rl = readline.createInterface({
 rl.on('line', (input) => {
   if (input.split(' ')[0] === 'man') {
     CLI.manual();
-  } else if (input.split(' ')[0] === 'md5') {
-    console.log("md5:", CLI.md5(input.substr(input.indexOf(' ') + 1)))
+  } else if (input.split(' ')[0] === 'elements') {
+    console.log(elements[0])
   } else if (input.split(' ')[0] === 'sh1') {
     console.log("sha1:", CLI.sh1(input.substr(input.indexOf(' ') + 1)));
   } else if (input.split(' ')[0] === 'sha256') {
