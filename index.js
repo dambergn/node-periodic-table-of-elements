@@ -38,18 +38,23 @@ app.enable('trust proxy');
 
 //Web Front End
 app.use(function (req, res, next) {
-  if (req.secure) {
-    // request was via https, so do no special handling
+  if (req.secure) { // request was via https, so do no special handling   
     next();
-  } else {
-    // request was via http, so redirect to https
+  } else { // request was via http, so redirect to https
     res.redirect('https://' + req.headers.host.split(':')[0] + ':' + PORTS + req.url);
   }
 });
+
 app.use(express.static('./public'));
 
 app.get('/', (req, res) => {
   res.sendFile('index.html', { root: './public' });
+});
+
+app.post('/admin/api/register', (req, res) => {
+  let request = req.body;
+  console.log("Body:", req.body);
+  res.sendStatus(200);
 });
 
 function serverIncriment() {
