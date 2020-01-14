@@ -1,0 +1,12 @@
+{
+    "chemical_name": "H20",
+    "common_name" : "Watter",
+    "scientific_name" : "Dihydrogen Monoxide",
+    "molecual_weight_g-mol" : "18.015",
+    "freezing_point" : "",
+    "melting_point" : "",
+    "boiling_point" : "",
+    "plazma_point" : "",
+    "pubChem" : "https://pubchem.ncbi.nlm.nih.gov/compound/962",
+    "wiki" : "https://en.wikipedia.org/wiki/Water"
+}

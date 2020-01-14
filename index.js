@@ -51,11 +51,11 @@ app.get('/', (req, res) => {
   res.sendFile('index.html', { root: './public' });
 });
 
-let elements = JSON.parse(fs.readFileSync('database/0_Elements.json'));
-function getElements(){
-  let results = []  ;
-  for(let i = 0; i < elements.length; i++){
-  results.push(JSON.parse(fs.readFileSync(`database/${elements[i].file}`)));
+let elements = JSON.parse(fs.readFileSync('database/elements/0_Elements.json'));
+function getElements() {
+  let results = [];
+  for (let i = 0; i < elements.length; i++) {
+    results.push(JSON.parse(fs.readFileSync(`database/elements/${elements[i].file}`)));
   }
   elements = results;
 }
@@ -95,10 +95,13 @@ const rl = readline.createInterface({
 rl.on('line', (input) => {
   if (input.split(' ')[0] === 'man') {
     CLI.manual();
+  } else if (input.split(' ')[0] === 'status') {
+    const used = process.memoryUsage();
+    for (let key in used) {
+      console.log(`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`);
+    }
   } else if (input.split(' ')[0] === 'elements') {
-    console.log(elements[0])
-  } else if (input.split(' ')[0] === 'sh1') {
-    console.log("sha1:", CLI.sh1(input.substr(input.indexOf(' ') + 1)));
+    console.log(elements);
   } else if (input.split(' ')[0] === 'sha256') {
     console.log("sha256:", CLI.sha256(input.substr(input.indexOf(' ') + 1)));
   } else if (input.split(' ')[0] === 'sha512') {
@@ -141,7 +144,7 @@ function verifyTokenAdmin(req, res, next) {
   if (typeof bearerHeader !== 'undefined') {
     let bearer = bearerHeader.split(' ');
     let bearerToken = bearer[1];
-    req.token = JSON.parse(bearerToken) 
+    req.token = JSON.parse(bearerToken)
     jwt.verify(req.token, options.key, (err, authData) => {
       if (err) {
         console.log('token error:', err)
