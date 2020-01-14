@@ -51,17 +51,47 @@ app.get('/', (req, res) => {
   res.sendFile('index.html', { root: './public' });
 });
 
-let elements = JSON.parse(fs.readFileSync('database/elements/0_Elements.json'));
+let elementsList = JSON.parse(fs.readFileSync('database/elements/0_Elements.json'));
+let elements = "";
 function getElements() {
   let results = [];
-  for (let i = 0; i < elements.length; i++) {
-    results.push(JSON.parse(fs.readFileSync(`database/elements/${elements[i].file}`)));
+  for (let i = 0; i < elementsList.length; i++) {
+    results.push(JSON.parse(fs.readFileSync(`database/elements/${elementsList[i].file}`)));
   }
   elements = results;
 }
 getElements();
 
-app.post('/api/ptoe', (req, res) => { // Periodic table of elements.
+app.post('/api/get/elements', (req, res) => { // Periodic table of elements.
+  let request = req.body;
+  console.log("Body:", req.body);
+  res.sendStatus(200);
+});
+
+app.post('/api/save/elements', (req, res) => { // Periodic table of elements.
+  let request = req.body;
+  console.log("Body:", req.body);
+  res.sendStatus(200);
+});
+
+let compundsList = JSON.parse(fs.readFileSync('database/compounds/00_compounds.json'));
+let compounds = "";
+function getCompounds() {
+  let results = [];
+  for (let i = 0; i < compundsList.length; i++){
+    results.push(JSON.parse(fs.readFileSync(`database/compounds/${compundsList[i].file}`)))
+  }
+  compounds = results
+}
+getCompounds()
+
+app.post('/api/get/compounds', (req, res) => { // Periodic table of elements.
+  let request = req.body;
+  console.log("Body:", req.body);
+  res.sendStatus(200);
+});
+
+app.post('/api/save/compounds', (req, res) => { // Periodic table of elements.
   let request = req.body;
   console.log("Body:", req.body);
   res.sendStatus(200);
@@ -102,8 +132,8 @@ rl.on('line', (input) => {
     }
   } else if (input.split(' ')[0] === 'elements') {
     console.log(elements);
-  } else if (input.split(' ')[0] === 'sha256') {
-    console.log("sha256:", CLI.sha256(input.substr(input.indexOf(' ') + 1)));
+  } else if (input.split(' ')[0] === 'compounds') {
+    console.log(compounds);
   } else if (input.split(' ')[0] === 'sha512') {
     console.log("sha512:", CLI.sha512(input.substr(input.indexOf(' ') + 1)));
   } else if (input.split(' ')[0] === 'pbkdf2') {
