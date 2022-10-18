@@ -55,3 +55,18 @@ Periodic Table of Elements
 | 1 Fewer than -IC  | -OUS               | -ITE               |
 | 2 Fewer than  -IC | HYPO- / -OUS       | HYPO- / -ITE       |
 | No Oxygen         | HYDRO- / -IC       | -IDE               |
+
+## International System of Units
+Length               | m   (meter)
+Mass                 | kg  (kilogram)
+Time                 | s   (second)
+Electric Current     | A   (ampere)
+Temprature           | K   (kelvin)
+Luminous Intensity   | cd  (candela)
+Ammount of Substance | mol (mole)
+
+Speed = Length / Time
+Acceleration = Length / Time 2
+Force = NEWTON=N=kg*m/s2
+Work = JOULE=j=kg*m2/s2
+Power = WATT=W=J/s=kg*m2/s3

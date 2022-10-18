@@ -2,7 +2,8 @@
 
 const fs = require('fs');
 
-let rawCSV = fs.readFileSync('elements/Periodic_Table_of_Elements.csv', 'utf8');
+// let rawCSV = fs.readFileSync('database/elements/Periodic_Table_of_Elements.csv', 'utf8');
+let rawCSV = fs.readFileSync('database/elements/elements.csv', 'utf8');
 
 function csvJSON(csv){
   var lines=csv.split("\n");
@@ -29,10 +30,12 @@ function csvJSON(csv){
   }
   // return result; //JavaScript object
   // return JSON.stringify(result); //JSON
-  for(let l = 0; l < result.length-1; l++){
-    let toBeSaved = JSON.stringify(result[l])
-    fs.writeFileSync(`database/${result[l].atomic_number}_${result[l].element}.json`, toBeSaved);
-  }
+  // for(let l = 0; l < result.length-1; l++){
+  //   let toBeSaved = JSON.stringify(result[l])
+  //   fs.writeFileSync(`database/${result[l].atomic_number}_${result[l].element}.json`, toBeSaved);
+  // }
+  // console.log(result);
+  fs.writeFileSync('database/elements/elements2.json', JSON.stringify(result))
 }
 
 csvJSON(rawCSV)
