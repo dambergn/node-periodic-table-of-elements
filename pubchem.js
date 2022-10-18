@@ -1,4 +1,7 @@
 'use strict'
+// const fetch = require('node-fetch');
+const https = require('https');
+const fs = require("fs")
 
 // https://pubchemdocs.ncbi.nlm.nih.gov/pug-rest-tutorial
 
@@ -57,3 +60,79 @@
 - ConformerCount3D - The number of conformers in the conformer model for a compound.
 - Fingerprint2D - Base64-encoded PubChem Substructure Fingerprint of a molecule.
 */
+
+
+
+// function getElement(number) {
+//     let url = `https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/element/${number}/JSON/?response_type=display`;
+
+//     let settings = { method: "Get" };
+
+//     fetch(url, settings)
+//         .then(res => res.json())
+//         .then((json) => {
+//             // do something with JSON
+//             console.log(json)
+//         });
+// }
+
+let full_list = [];
+let current = 118;
+
+function getElement(number) {
+    let url = `https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/element/${number}/JSON/?response_type=display`;
+
+    https.get(url,(res) => {
+        let body = "";
+    
+        res.on("data", (chunk) => {
+            body += chunk;
+        });
+    
+        res.on("end", () => {
+            try {
+                let json = JSON.parse(body);
+                full_list.push(json)
+                // do something with JSON
+                // console.log(json)
+                let atomic_number = json.Record.RecordNumber
+                let element_name = json.Record.RecordTitle
+                console.log(`Saving: ${atomic_number}_${element_name}`)
+                fs.writeFileSync( `database/elements/pubchem/${atomic_number}_${element_name}.json`, JSON.stringify(json))
+
+                current++
+                processList()
+            } catch (error) {
+                console.error(error.message);
+            };
+        });
+    
+    }).on("error", (error) => {
+        console.error(error.message);
+    });
+}
+
+function processList(){
+    if (current < 119){
+        getElement(current)
+    } else {
+        console.log("saving complete list")
+        // fs.writeFileSync( `database/elements/pubchem/0_all_elements.json`, JSON.stringify(full_list))
+    }
+    
+}
+
+processList()
+
+// for (let i = 1; i < 118 + 1; i++){
+//     getElement(i)
+//     console.log("processing", i)
+//     setTimeout(function() {
+//         console.log("sleep 3 seconds")
+//     }, 3000);
+// }
+
+// setTimeout(function() {
+    
+// }, 354000);
+
